@@ -181,8 +181,12 @@ const podeClicar = (pos = {}) => {
   const distY = Math.abs(pos.x - lastPos.x)
   const distX = Math.abs(pos.y - lastPos.y)
   if (distX === 2 && distY === 2) return false
-  if (distX === 2 && distY === 0) return true
-  if (distY === 2 && distX === 0) return true
+
+  if (board[pos.x][pos.y] === 0) {
+    if (distX === 2 && distY === 0) return true
+    if (distY === 2 && distX === 0) return true
+  }
+
   return false
 }
 
@@ -191,18 +195,29 @@ window.addEventListener("click", (e) => {
     let pos = getMousePos(canvas, e)
     let posClicada = pegaPosicaoClicada(pos)
     listaClicks.push(posClicada)
+    console.log('listaClicks', listaClicks)
 
     const pode = podeClicar(posClicada)
     console.log("PodeClicar: ", pode)
-    //console.log("lista clicks: ", listaClicks)
 
     // seleciona peça
     board[posClicada.x][posClicada.y] = 2
 
-    if (listaClicks.length === 2) {
+    if (pode) {
+      // remove da ultima posicao
+      board[lastPos.x][lastPos.y] = 0
+
+      board[posClicada.x][posClicada.y] = 1
+
+      listaClicks = []
+    }
+
+    //console.log("lista clicks: ", listaClicks)
+
+    if (listaClicks.length === 2 && !pode) {
       setTimeout(() => {
         listaClicks.forEach((item) => {
-          board[item.x][item.y] = 1
+          board[item.x][item.y] = 1 // purple
         })
         listaClicks = []
         desenharMatriz()
@@ -210,8 +225,6 @@ window.addEventListener("click", (e) => {
         lastPos = { x: -1, y: -1 }
       }, 2000)
     }
-
-    // atualizaPlacar(posClicada)
 
     lastPos = posClicada
 
