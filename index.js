@@ -10,9 +10,9 @@ let placar = 16
 
 const board = [
   [0, 1, 1, 1, 0],
-  [1, 1, 1, 1, 1],
-  [1, 1, 0, 1, 1],
-  [1, 1, 1, 1, 1],
+  [1, 0, 0, 1, 1],
+  [1, 1, 1, 0, 1],
+  [1, 0, 1, 1, 1],
   [0, 1, 1, 1, 0]
 ]
 
@@ -182,13 +182,60 @@ const podeClicar = (pos = {}) => {
   const distX = Math.abs(pos.y - lastPos.y)
   if (distX === 2 && distY === 2) return false
 
-  if (board[pos.x][pos.y] === 0) {
+  const posFinalValida = board[pos.x][pos.y] === 0
+
+  const posMeio = getPosMeio({ lastPos, posClicada: pos })
+  console.log('POS MEIO', posMeio, verificaPosTemPeca(posMeio))
+
+  const posMeioValida = verificaPosTemPeca(posMeio)
+
+  // posicao final ta vazia
+  if (posFinalValida && posMeioValida) {
+    // eh um movimento valido
     if (distX === 2 && distY === 0) return true
     if (distY === 2 && distX === 0) return true
   }
 
   return false
 }
+
+const getPosMeio = ({ lastPos, posClicada }) => {
+  const posInicio = { x: Number(lastPos.x), y: Number(lastPos.y) };
+  const posFim = { x: Number(posClicada.x), y: Number(posClicada.y) };
+  let posMeio = {}
+
+  // mesma linha
+  if (posInicio.x === posFim.x) {
+    //direita
+    if (posFim.y > posInicio.y) {
+      posMeio = { x: posInicio.x, y: posFim.y - 1 }
+    }
+    // esquerda
+    if (posFim.y < posInicio.y) {
+      posMeio = { x: posInicio.x, y: posInicio.y - 1 }
+    }
+  }
+
+  // mesma coluna
+  if (posInicio.y === posFim.y) {
+    // baixo
+    if (posFim.x > posInicio.x) {
+      posMeio = { x: posFim.x - 1, y: posInicio.y }
+    }
+    // cima
+    if (posFim.x < posInicio.x) {
+      posMeio = { x: posInicio.x - 1, y: posInicio.y }
+    }
+  }
+
+  return posMeio;
+}
+
+
+const verificaPosTemPeca = (pos) => {
+  return board[pos.x][pos.y] === 1
+}
+
 
 window.addEventListener("click", (e) => {
   if (e) {
@@ -204,8 +251,13 @@ window.addEventListener("click", (e) => {
     board[posClicada.x][posClicada.y] = 2
 
     if (pode) {
+      const posMeio = getPosMeio({ lastPos, posClicada })
+
       // remove da ultima posicao
       board[lastPos.x][lastPos.y] = 0
+
+      // remove do meio
+      board[posMeio.x][posMeio.y] = 0
 
       board[posClicada.x][posClicada.y] = 1
 
@@ -219,6 +271,7 @@ window.addEventListener("click", (e) => {
         listaClicks.forEach((item) => {
           board[item.x][item.y] = 1 // purple
         })
+
         listaClicks = []
         desenharMatriz()
 
