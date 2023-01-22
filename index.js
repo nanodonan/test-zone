@@ -91,7 +91,7 @@ const desenhaPino = ({ i, j, tile }) => {
   }
 }
 
-const desenharMatriz = () => {
+const desenharPecas = () => {
   const cols = board[0].length
   const tile = CANVAS_WIDTH / cols
 
@@ -236,6 +236,11 @@ const verificaPosTemPeca = (pos) => {
   return board[pos.x][pos.y] === 1
 }
 
+function primeiroClickInvalido(posClicada) {
+  const isPrimeiraJogada = listaClicks.length === 1
+  const posAtualVazia = board[posClicada.x][posClicada.y] === 0
+  return isPrimeiraJogada && posAtualVazia
+}
 
 window.addEventListener("click", (e) => {
   if (e) {
@@ -243,9 +248,14 @@ window.addEventListener("click", (e) => {
     let posClicada = pegaPosicaoClicada(pos)
     listaClicks.push(posClicada)
     console.log('listaClicks', listaClicks)
-
+    console.log("board: ", board, board[posClicada.x][posClicada.y])
     const pode = podeClicar(posClicada)
     console.log("PodeClicar: ", pode)
+
+    if(primeiroClickInvalido(posClicada)){
+      listaClicks = []
+      return
+    }
 
     // seleciona peça
     board[posClicada.x][posClicada.y] = 2
@@ -273,7 +283,7 @@ window.addEventListener("click", (e) => {
         })
 
         listaClicks = []
-        desenharMatriz()
+        desenharPecas()
 
         lastPos = { x: -1, y: -1 }
       }, 2000)
@@ -285,7 +295,7 @@ window.addEventListener("click", (e) => {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
     desenharTabuleiro()
-    desenharMatriz()
+    desenharPecas()
   }
 })
 
@@ -295,7 +305,7 @@ function main() {
   try {
     // start
     desenharTabuleiro()
-    desenharMatriz()
+    desenharPecas()
 
     // atualizaPlacar()
   } catch (err) {

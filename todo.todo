@@ -6,5 +6,9 @@ Ação de movimento do pino:
     ☐ Highlight nas peças clicadas
     ☐ Pintar de verde jogada valida
     ☐ Remover os itens movimentados
+    Bugs 
+    ☐ Clicks em casas vazias
+    ☐ type error na verificaPosTemPeca
+    ☐ Movimento para casa vazia
 
 
