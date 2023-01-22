@@ -7,8 +7,8 @@ Ação de movimento do pino:
     ☐ Pintar de verde jogada valida
     ☐ Remover os itens movimentados
     Bugs 
-    ☐ Clicks em casas vazias
-    ☐ type error na verificaPosTemPeca
+    ✔ Clicks em casas vazias @done(23-01-22 10:00)
+    ✔ type error na verificaPosTemPeca @done(23-01-22 10:15)
     ☐ Movimento para casa vazia
 
 

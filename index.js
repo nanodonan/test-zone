@@ -233,6 +233,9 @@ const getPosMeio = ({ lastPos, posClicada }) => {
 
 
 const verificaPosTemPeca = (pos) => {
+  if (!pos.hasOwnProperty('x')) {
+    return false
+  }
   return board[pos.x][pos.y] === 1
 }
 
@@ -248,11 +251,10 @@ window.addEventListener("click", (e) => {
     let posClicada = pegaPosicaoClicada(pos)
     listaClicks.push(posClicada)
     console.log('listaClicks', listaClicks)
-    console.log("board: ", board, board[posClicada.x][posClicada.y])
     const pode = podeClicar(posClicada)
     console.log("PodeClicar: ", pode)
 
-    if(primeiroClickInvalido(posClicada)){
+    if (primeiroClickInvalido(posClicada)) {
       listaClicks = []
       return
     }
