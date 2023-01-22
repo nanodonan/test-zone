@@ -76,16 +76,23 @@ const mostraGrid = ({ i, j, tile }) => {
 }
 
 const desenhaPino = ({ i, j, tile }) => {
-  const cor = board[i][j] === 1 ? "purple" : "red"
+
+  const colorsByNum = {
+    0: "grey",
+    1: "purple",
+    2: "red"
+  }
+
+  const selectedColor = colorsByNum[board[i][j]]
 
   const pino = new Bolinha({
     x: j * tile + tile / 2,
     y: i * tile + tile / 2,
     tam: tile / 3,
-    color: cor
+    color: selectedColor
   })
 
-  // bolinha roxa
+  // bolinha roxa em cruz
   if (board[i][j] !== 0) {
     pino.draw()
   }
@@ -100,7 +107,7 @@ const desenharPecas = () => {
 
       // mostraGrid({ i, j, tile })
 
-      desenhaPino({ i, j, tile, cor: { asdf: true } })
+      desenhaPino({ i, j, tile })
     }
   }
 }
@@ -249,7 +256,11 @@ window.addEventListener("click", (e) => {
   if (e) {
     let pos = getMousePos(canvas, e)
     let posClicada = pegaPosicaoClicada(pos)
-    listaClicks.push(posClicada)
+
+    listaClicks.push({
+      l: posClicada.x,
+      c: posClicada.y
+    })
     console.log('listaClicks', listaClicks)
     const pode = podeClicar(posClicada)
     console.log("PodeClicar: ", pode)
@@ -276,15 +287,18 @@ window.addEventListener("click", (e) => {
       listaClicks = []
     }
 
-    //console.log("lista clicks: ", listaClicks)
-
     if (listaClicks.length === 2 && !pode) {
       setTimeout(() => {
-        listaClicks.forEach((item) => {
-          board[item.x][item.y] = 1 // purple
-        })
+        let item = listaClicks[0]
+        let item2 = listaClicks[1]
+        board[item.l][item.c] = 1 // purple
+        board[item2.l][item2.c] = 0
 
         listaClicks = []
+
+        // clear   
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+        desenharTabuleiro()
         desenharPecas()
 
         lastPos = { x: -1, y: -1 }
