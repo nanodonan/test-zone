@@ -11,7 +11,7 @@ let placar = 16
 let posAux = -1
 
 const board = [
-  [3, 1, 1, 1, 3],
+  [3, 1, 1, 1,3],
   [1, 1, 1, 1, 1],
   [1, 1, 0, 1, 1],
   [1, 1, 1, 1, 1],
@@ -185,16 +185,15 @@ const limpaCanvas = () => {
 let lastPos = { x: -1, y: -1 }
 let listaClicks = []
 
-const podeClicar = (pos = {}) => {
+const podeFazerJogada = (pos = {}) => {
   if (lastPos.x === -1 || lastPos.y === -1) return false
   const distY = Math.abs(pos.x - lastPos.x)
   const distX = Math.abs(pos.y - lastPos.y)
   if (distX === 2 && distY === 2) return false
 
-  const posFinalValida = board[pos.x][pos.y] === 0
+  const posFinalValida = (board[pos.x][pos.y] === 0) && (board[pos.x][pos.y] !== 3)
 
   const posMeio = getPosMeio({ lastPos, posClicada: pos })
-  console.log('POS MEIO', posMeio, verificaPosTemPeca(posMeio))
 
   const posMeioValida = verificaPosTemPeca(posMeio)
 
@@ -240,7 +239,6 @@ const getPosMeio = ({ lastPos, posClicada }) => {
   return posMeio;
 }
 
-
 const verificaPosTemPeca = (pos) => {
   if (!pos.hasOwnProperty('x')) {
     return false
@@ -254,16 +252,36 @@ function primeiroClickInvalido(posClicada) {
   return isPrimeiraJogada && posAtualVazia
 }
 
+function isValidClick (posClicada){
+
+   //verifica click em posição invalida fora do tabuleiro
+   if (posClicada.x === -1 || posClicada.y === -1) return false
+
+   //verifica click em posição invalida dentro do tabuleiro
+   if(board[posClicada.x][posClicada.y] === 3) return false
+
+
+
+   return true
+}
+
+
 window.addEventListener("click", (e) => {
   if (e) {
     let pos = getMousePos(canvas, e)
     let posClicada = pegaPosicaoClicada(pos)
+    
+   if(!isValidClick(posClicada)) return
 
     listaClicks.push({
       l: posClicada.x,
       c: posClicada.y
     })
-    const pode = podeClicar(posClicada)
+      
+    if(listaClicks.length >= 3 ) return
+    
+    const pode = podeFazerJogada(posClicada)
+  
 
     if (primeiroClickInvalido(posClicada)) {
       listaClicks = []
@@ -272,10 +290,10 @@ window.addEventListener("click", (e) => {
     
     // guarda valor antes da seleção
     posAux = board[posClicada.x][posClicada.y]
-    
+  
     // seleciona peça
     board[posClicada.x][posClicada.y] = 2
-
+   
     if (pode) {
       const posMeio = getPosMeio({ lastPos, posClicada })
 
@@ -300,6 +318,10 @@ window.addEventListener("click", (e) => {
           board[item2.l][item2.c] = 1
         }else if (posAux === 0){
           board[item2.l][item2.c] = 0
+        }
+        else if (posAux === 3){
+          board[item2.l][item2.c] = 3
+
         }
         listaClicks = []
 

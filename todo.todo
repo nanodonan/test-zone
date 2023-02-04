@@ -3,15 +3,16 @@ Ação de movimento do pino:
     ✔ Apagar só no segundo click @done(23-01-08 11:47)
 
     ✔ Verificar se a jogada é valida @done(23-01-08 11:47)
-    ☐ Highlight nas peças clicadas
+    ✔ Highlight nas peças clicadas @done(23-02-04 09:06)
     ☐ Pintar de verde jogada valida
-    ☐ Remover os itens movimentados
+    ✔ Remover os itens movimentados @done(23-02-04 09:06)
     Bugs 
     ✔ Clicks em casas vazias @done(23-01-22 10:00)
     ✔ type error na verificaPosTemPeca @done(23-01-22 10:15)
     ✔ Movimento para casa vazia @done(23-01-22 11:23)
     ✔ Jogada em casa ocupada @done(23-02-04 00:07)
-    ☐ Jogada fora do tabuleiro
+    ✔ Jogada fora do tabuleiro @done(23-02-04 09:06)
+    ✔ Não deixar clicar em mais de 2 itens @done(23-02-04 09:06)
     
 
 
