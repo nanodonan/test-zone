@@ -8,6 +8,8 @@ const CANVAS_HEIGHT = canvas.height = 500
 
 let placar = 16
 
+let posAux = -1
+
 const board = [
   [0, 1, 1, 1, 0],
   [1, 0, 0, 1, 1],
@@ -261,15 +263,16 @@ window.addEventListener("click", (e) => {
       l: posClicada.x,
       c: posClicada.y
     })
-    console.log('listaClicks', listaClicks)
     const pode = podeClicar(posClicada)
-    console.log("PodeClicar: ", pode)
 
     if (primeiroClickInvalido(posClicada)) {
       listaClicks = []
       return
     }
-
+    
+    // guarda valor antes da seleção
+    posAux = board[posClicada.x][posClicada.y]
+    
     // seleciona peça
     board[posClicada.x][posClicada.y] = 2
 
@@ -291,9 +294,13 @@ window.addEventListener("click", (e) => {
       setTimeout(() => {
         let item = listaClicks[0]
         let item2 = listaClicks[1]
+        
         board[item.l][item.c] = 1 // purple
-        board[item2.l][item2.c] = 0
-
+        if(posAux === 1){
+          board[item2.l][item2.c] = 1
+        }else if (posAux === 0){
+          board[item2.l][item2.c] = 0
+        }
         listaClicks = []
 
         // clear   
