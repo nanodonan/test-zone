@@ -11,11 +11,11 @@ let placar = 16
 let posAux = -1
 
 const board = [
-  [0, 1, 1, 1, 0],
-  [1, 0, 0, 1, 1],
-  [1, 1, 1, 0, 1],
-  [1, 0, 1, 1, 1],
-  [0, 1, 1, 1, 0]
+  [3, 1, 1, 1, 3],
+  [1, 1, 1, 1, 1],
+  [1, 1, 0, 1, 1],
+  [1, 1, 1, 1, 1],
+  [3, 1, 1, 1, 3]
 ]
 
 let square = [
@@ -95,7 +95,7 @@ const desenhaPino = ({ i, j, tile }) => {
   })
 
   // bolinha roxa em cruz
-  if (board[i][j] !== 0) {
+  if ((board[i][j] !== 3) && (board[i][j] !== 0)) {
     pino.draw()
   }
 }
