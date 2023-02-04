@@ -6,18 +6,24 @@ const ctx = canvas.getContext("2d")
 const CANVAS_WIDTH = canvas.width = 500
 const CANVAS_HEIGHT = canvas.height = 500
 
-let placar = 16
+let itensRestantes = 20
 
 let posAux = -1
 
-const board = [
-  [3, 1, 1, 1,3],
+const board  = [
+  [3, 1, 1, 1, 3],
   [1, 1, 1, 1, 1],
   [1, 1, 0, 1, 1],
   [1, 1, 1, 1, 1],
   [3, 1, 1, 1, 3]
 ]
-
+const board2 = [
+  [3, 1, 0, 0, 3],
+  [1, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 1],
+  [3, 0, 0, 0, 3]
+]
 let square = [
   [1, 0, 0, 0, 1],
   [0, 0, 0, 0, 0],
@@ -106,9 +112,7 @@ const desenharPecas = () => {
 
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
-
       // mostraGrid({ i, j, tile })
-
       desenhaPino({ i, j, tile })
     }
   }
@@ -166,15 +170,8 @@ function pegaPosicaoClicada(pos) {
   return { x: resultadoX, y: resultadoY }
 }
 
-const atualizaPlacar = (pos = {}) => {
-  let i = pos.x
-  let j = pos.y
-  if (i != undefined && j != undefined) {
-    if (board[i][j] === 1) {
-      placar -= 1
-    }
-  }
-  document.getElementById("placar01").innerHTML = placar
+const atualizaPlacar = () => {
+  document.getElementById("placar01").innerHTML = itensRestantes
 }
 
 const limpaCanvas = () => {
@@ -252,17 +249,17 @@ function primeiroClickInvalido(posClicada) {
   return isPrimeiraJogada && posAtualVazia
 }
 
-function isValidClick (posClicada){
+function isValidClick(posClicada) {
 
-   //verifica click em posição invalida fora do tabuleiro
-   if (posClicada.x === -1 || posClicada.y === -1) return false
+  //verifica click em posição invalida fora do tabuleiro
+  if (posClicada.x === -1 || posClicada.y === -1) return false
 
-   //verifica click em posição invalida dentro do tabuleiro
-   if(board[posClicada.x][posClicada.y] === 3) return false
+  //verifica click em posição invalida dentro do tabuleiro
+  if (board[posClicada.x][posClicada.y] === 3) return false
 
 
 
-   return true
+  return true
 }
 
 
@@ -270,30 +267,30 @@ window.addEventListener("click", (e) => {
   if (e) {
     let pos = getMousePos(canvas, e)
     let posClicada = pegaPosicaoClicada(pos)
-    
-   if(!isValidClick(posClicada)) return
+
+    if (!isValidClick(posClicada)) return
 
     listaClicks.push({
       l: posClicada.x,
       c: posClicada.y
     })
-      
-    if(listaClicks.length >= 3 ) return
-    
+
+    if (listaClicks.length >= 3) return
+
     const pode = podeFazerJogada(posClicada)
-  
+
 
     if (primeiroClickInvalido(posClicada)) {
       listaClicks = []
       return
     }
-    
+
     // guarda valor antes da seleção
     posAux = board[posClicada.x][posClicada.y]
-  
+
     // seleciona peça
     board[posClicada.x][posClicada.y] = 2
-   
+
     if (pode) {
       const posMeio = getPosMeio({ lastPos, posClicada })
 
@@ -306,20 +303,21 @@ window.addEventListener("click", (e) => {
       board[posClicada.x][posClicada.y] = 1
 
       listaClicks = []
+      itensRestantes--
     }
 
     if (listaClicks.length === 2 && !pode) {
       setTimeout(() => {
         let item = listaClicks[0]
         let item2 = listaClicks[1]
-        
+
         board[item.l][item.c] = 1 // purple
-        if(posAux === 1){
+        if (posAux === 1) {
           board[item2.l][item2.c] = 1
-        }else if (posAux === 0){
+        } else if (posAux === 0) {
           board[item2.l][item2.c] = 0
         }
-        else if (posAux === 3){
+        else if (posAux === 3) {
           board[item2.l][item2.c] = 3
 
         }
@@ -329,6 +327,7 @@ window.addEventListener("click", (e) => {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
         desenharTabuleiro()
         desenharPecas()
+        atualizaPlacar()
 
         lastPos = { x: -1, y: -1 }
       }, 2000)
@@ -341,16 +340,17 @@ window.addEventListener("click", (e) => {
 
     desenharTabuleiro()
     desenharPecas()
+    atualizaPlacar()
   }
 })
 
 
 function main() {
-
   try {
     // start
     desenharTabuleiro()
     desenharPecas()
+    atualizaPlacar()
 
     // atualizaPlacar()
   } catch (err) {
