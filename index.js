@@ -6,22 +6,22 @@ const ctx = canvas.getContext("2d")
 const CANVAS_WIDTH = canvas.width = 500
 const CANVAS_HEIGHT = canvas.height = 500
 
-let itensRestantes = 20
+let itensRestantes = 10
 
 let posAux = -1
 
-const board  = [
+const board2 = [
   [3, 1, 1, 1, 3],
   [1, 1, 1, 1, 1],
   [1, 1, 0, 1, 1],
   [1, 1, 1, 1, 1],
   [3, 1, 1, 1, 3]
 ]
-const board2 = [
-  [3, 1, 0, 0, 3],
-  [1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1],
+const board = [
+  [3, 0, 0, 0, 3],
   [1, 0, 0, 0, 1],
+  [1, 0, 0, 0, 1],
+  [1, 1, 0, 0, 1],
   [3, 0, 0, 0, 3]
 ]
 let square = [
@@ -304,6 +304,7 @@ window.addEventListener("click", (e) => {
 
       listaClicks = []
       itensRestantes--
+      verificaPossivelJogada()
     }
 
     if (listaClicks.length === 2 && !pode) {
@@ -315,7 +316,10 @@ window.addEventListener("click", (e) => {
         if (posAux === 1) {
           board[item2.l][item2.c] = 1
         } else if (posAux === 0) {
-          board[item2.l][item2.c] = 0
+          board[item2.l][item2.c] = 0//verificar esquerda
+          //verificar cima
+          //verificar baixo
+
         }
         else if (posAux === 3) {
           board[item2.l][item2.c] = 3
@@ -341,9 +345,70 @@ window.addEventListener("click", (e) => {
     desenharTabuleiro()
     desenharPecas()
     atualizaPlacar()
+    //verificaPossivelJogada()
   }
 })
 
+
+function verificaJogadaPorPeca(pos = []) {
+  console.log("ONDE TEM PEÇA: ", pos.l, pos.c)
+  //Direita
+  if (pos.c < 3) {
+    if (board[pos.l][pos.c + 2] === 0) {
+      if (board[pos.l][pos.c + 1] === 1) {
+        console.log("AINDA TEM JOGADA PRA DIREITA: ", pos.l, pos.c)
+        return true
+      }
+    }
+  }
+  //Esquerda
+  if (pos.c > 1) {
+    if (board[pos.l][pos.c - 2] === 0) {
+      if (board[pos.l][pos.c - 1] === 1) {
+        console.log("AINDA TEM JOGADA PRA ESQUERDA: ", pos.l, pos.c)
+        return true
+      }
+    }
+  }
+  //Cima
+  if (pos.l > 1) {
+    if (board[pos.l - 2][pos.c] === 0) {
+      if (board[pos.l - 1][pos.c] === 1) {
+        console.log("AINDA TEM JOGADA PRA CIMA: ", pos.l, pos.c)
+        return true
+      }
+    }
+  }
+  //Baixo
+  if (pos.l < 3) {
+    if (board[pos.l + 2][pos.c] === 0) {
+      if (board[pos.l + 1][pos.c] === 1) {
+        console.log("AINDA TEM JOGADA PRA BAIXO: ", pos.l, pos.c)
+        return true
+      }
+    }
+  }
+  return false
+}
+
+function verificaPossivelJogada() {
+  let aindaPodeJogar = false
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      if (board[i][j] === 1 || board[i][j] === 2) {
+        aindaPodeJogar = verificaJogadaPorPeca({ l: i, c: j })
+        if (aindaPodeJogar) break
+      }
+    }
+    if (aindaPodeJogar) break
+  }
+
+  if (aindaPodeJogar) {
+    console.log("PLAY AGAIN")
+  } else {
+    console.log("GAME OVER")
+  }
+}
 
 function main() {
   try {

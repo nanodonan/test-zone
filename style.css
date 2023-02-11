@@ -17,7 +17,7 @@ body {
     width: 600px;
     height: 100px;
     margin: 20px auto;
-    position: absolute;
+    position:absolute;
     left: 50%;
     top: 10%;
     transform: translate(-50%, -50%);
