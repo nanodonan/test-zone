@@ -4,8 +4,7 @@ const canvas = document.getElementById("canvas01")
 const ctx = canvas.getContext("2d")
 
 const gameOverElement = document.querySelector(".game-over")
-const winElement = document.querySelector(".win")
-const restartBtnElement = document.getElementById("botao01")
+const restartBtnElement = document.querySelector(".restartBtn")
 
 const CANVAS_WIDTH = canvas.width = 500
 const CANVAS_HEIGHT = canvas.height = 500
@@ -314,13 +313,13 @@ window.addEventListener("click", (e) => {
 
       if (!aindaPodeJogar) {
         if (itensRestantes === 1) {
-          winElement.textContent = "WINNER"
-          restartBtnElement.innerHTML = '<span onclick="restart()" class="botao01">replay</span>'
+          gameOverElement.textContent = "WINNER"
+          gameOverElement.classList.add('win')
         } else {
           gameOver = true
           gameOverElement.textContent = "GAME OVER"
-          restartBtnElement.innerHTML = '<span onclick="restart()" class="botao01">replay</span>'
         }
+        restartBtnElement.style.display = 'flex'
       }
     }
 
@@ -418,14 +417,17 @@ function verificaPossivelJogada() {
 }
 
 function restart() {
-  board = [...board2]
-  ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-  
-  desenharTabuleiro()
-  desenharPecas()
-  itensRestantes = 20
-  atualizaPlacar()
+  window.location.reload()
+
+  // board = [...board2]
+  // ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
+  // desenharTabuleiro()
+  // desenharPecas()
+  // itensRestantes = 20
+  // atualizaPlacar()
   //location.reload()
+
 }
 
 

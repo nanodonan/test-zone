@@ -78,6 +78,26 @@ p {
     font-size: 120px;
 }
 
+.win {
+    color: green;
+}
+
+.restartBtn {
+    display: none;
+    margin: 20px 0px;
+    color: black;
+    cursor: pointer;
+}
+
+.restartBtn:hover {
+    color: white;
+}
+
+
+.restartBtn span {
+    font-size: 50px;
+}
+
 .quadrado {
     width: 200px;
     height: 200px;
@@ -101,10 +121,7 @@ p {
     margin-bottom: 0px;
 }
 
-.win {
-    color: green;
-    font-size: 120px;
-}
+
 
 #botao01:hover {
     color: white;
