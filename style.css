@@ -1,5 +1,7 @@
 body {
     background-color: cadetblue;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
 }
 
 #canvas01 {
@@ -17,7 +19,7 @@ body {
     width: 600px;
     height: 100px;
     margin: 20px auto;
-    position:absolute;
+    position: absolute;
     left: 50%;
     top: 10%;
     transform: translate(-50%, -50%);
@@ -26,7 +28,7 @@ body {
 
 }
 
-.bola{
+.bola {
     width: 40px;
     height: 40px;
     background-color: purple;
@@ -38,12 +40,86 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.placar{
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+#placar01 {
+    color: black;
+    font-size: x-large;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48;
+    margin-right: 10px;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-texto {
+    color: black;
+    margin: 0px 20px;
+    padding: 20px;
+}
+
+p {
+    font-size: 20px;
+    color: black;
+    margin: 0px 5px 0px 0px;
+    padding: 0px;
+}
+
+.game-over {
+    color: red;
+    font-size: 120px;
+}
+
+.quadrado {
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+}
+
+.bloco-02 {
+    position: relative;
+    width: 600px;
+    height: 400px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
     font-size: 50px;
-    height: 40px;
-    width: 40px;
-    position:relative;
-    left: 10%;
-    top: 25%;   
-    }
+    margin-bottom: 0px;
+}
+
+.win {
+    color: green;
+    font-size: 120px;
+}
+
+#botao01:hover {
+    color: white;
+    cursor: pointer;
+    font-size: 50px;
+}
+
+#botao01 {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48;
+    margin-right: 10px;
+    font-size: 50px;
+    color: black;
+    display: flex;  
+}
